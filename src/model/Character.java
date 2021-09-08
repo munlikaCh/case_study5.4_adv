@@ -154,10 +154,10 @@ public class Character extends Pane {
         }
     }
 
-    private int getX() {
+    public int getX() {
         return x;
     }
-    private int getY() {
+    public int getY() {
         return y;
     }
 
@@ -214,5 +214,13 @@ public class Character extends Pane {
 
     public int getScore() {
         return score;
+    }
+
+    public double getOffsetX() {
+        return offsetX;
+    }
+
+    public double getOffsetY() {
+        return offsetY;
     }
 }
