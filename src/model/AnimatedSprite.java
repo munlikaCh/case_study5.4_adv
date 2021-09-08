@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AnimatedSprite extends ImageView{
-
     int count, columns, offsetX, offsetY, width, height, curXIndex=0, curYIndex=0;
 
     public AnimatedSprite(Image image, int count, int columns, int offsetX, int offsetY, int width, int height){
