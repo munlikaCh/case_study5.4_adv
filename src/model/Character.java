@@ -19,7 +19,6 @@ public class Character extends Pane {
 
     private Image characterImg;
 
-
     private AnimatedSprite imageView;
 
     private int x;
@@ -28,6 +27,8 @@ public class Character extends Pane {
     private int startY;
     private int offsetX;
     private int offsetY;
+
+    private int score=0;
 
     private KeyCode leftKey;
     private KeyCode rightKey;
@@ -77,6 +78,7 @@ public class Character extends Pane {
         if (y < Platform.GROUND - CHARACTER_HEIGHT) {
 //            if (falling && y < c.getY()) {
             if( falling && y < c.getY() && Math.abs(y-c.getY())<=CHARACTER_HEIGHT+1) {
+                score++;
                 y = Platform.GROUND - CHARACTER_HEIGHT - 5;
                 repaint();
                 c.collapsed();
@@ -208,5 +210,9 @@ public class Character extends Pane {
 
     public AnimatedSprite getImageView() {
         return imageView;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

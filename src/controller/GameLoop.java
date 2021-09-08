@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import model.Character;
 import view.Platform;
+import view.Score;
 
 import java.util.ArrayList;
 
@@ -50,13 +51,21 @@ public class GameLoop implements Runnable {
         }
     }
 
+    private void updateScore(ArrayList<Score> scoreList, ArrayList<Character> characterList) {
+        javafx.application.Platform.runLater(() -> {
+            for (int i=0 ; i<scoreList.size() ; i++){
+                scoreList.get(i).setPoint(characterList.get(i).getScore());
+            }
+        });
+    }
+
     @Override
     public void run() {
         while (running) {
-
             float time = System.currentTimeMillis();
-
             update(platform.getCharacterList());
+
+            updateScore(platform.getScoreList(),platform.getCharacterList());
 
             time = System.currentTimeMillis() - time;
 
