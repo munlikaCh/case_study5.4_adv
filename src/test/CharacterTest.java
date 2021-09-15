@@ -94,5 +94,7 @@ public class CharacterTest {
         assertTrue("Model: Character moving right state is set", isMoveRight.getBoolean(
                 characterUnderTest));
         assertTrue("View: Character is moving right", characterUnderTest.getX() > startX);
+
+        assertTrue("Model: Character is being on the ground", characterUnderTest.getX() ==characterUnderTest.getX());
     }
 }
