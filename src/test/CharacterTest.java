@@ -79,4 +79,20 @@ public class CharacterTest {
                 characterUnderTest));
         assertTrue("View: Character is moving left", characterUnderTest.getX() < startX);
     }
+
+    @Test
+    public void characterShouldMoveToTheRightAfterTheRightKeyIsPressed() throws IllegalAccessException, InvocationTargetException, InvocationTargetException,
+            InvocationTargetException, NoSuchFieldException {
+        Character characterUnderTest = characterListUnderTest.get(0);
+        int startX = characterUnderTest.getX();
+        platformUnderTest.getKeys().add(KeyCode.D);
+        updateMethod.invoke(gameLoopUnderTest,characterListUnderTest);
+        redrawMethod.invoke(drawingLoopUnderTest,characterListUnderTest);
+        Field isMoveRight = characterUnderTest.getClass().getDeclaredField("isMoveRight");
+        isMoveRight.setAccessible(true);
+        assertTrue("Controller: Right key pressing is acknowledged",platformUnderTest.getKeys().isPressed(KeyCode.D));
+        assertTrue("Model: Character moving right state is set", isMoveRight.getBoolean(
+                characterUnderTest));
+        assertTrue("View: Character is moving right", characterUnderTest.getX() > startX);
+    }
 }
