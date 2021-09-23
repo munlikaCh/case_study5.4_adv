@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+//Imports are omitted
 public class Score extends Pane {
     Label point;
     public Score(int x, int y) {

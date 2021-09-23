@@ -16,7 +16,6 @@ public class Platform extends Pane {
     public static final int GROUND = 300;
 
     private Image platformImg;
-//    private ArrayList<Character> characterList = new ArrayList();
     private ArrayList<Character> characterList;
     private ArrayList<Score> scoreList;
 
@@ -25,7 +24,6 @@ public class Platform extends Pane {
     public Platform() {
         characterList = new ArrayList<>();
         scoreList = new ArrayList();
-
         keys = new Keys();
         platformImg = new Image(getClass().getResourceAsStream("/assets/Background.png"));
         ImageView backgroundImg = new ImageView(platformImg);
@@ -33,14 +31,11 @@ public class Platform extends Pane {
         backgroundImg.setFitWidth(WIDTH);
         characterList.add(new Character(30, 30,0,0, KeyCode.A,KeyCode.D,KeyCode.W));
         characterList.add(new Character(Platform.WIDTH-60, 30,0,96, KeyCode.LEFT,KeyCode.RIGHT,KeyCode.UP));
-
+        getChildren().add(backgroundImg);
         scoreList.add(new Score(30,GROUND + 30));
         scoreList.add(new Score(Platform.WIDTH-60,GROUND + 30));
-
-        getChildren().add(backgroundImg);
         getChildren().addAll(characterList);
         getChildren().addAll(scoreList);
-
     }
 
     public ArrayList<Character> getCharacterList() {

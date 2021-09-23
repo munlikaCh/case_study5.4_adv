@@ -20,14 +20,14 @@ public class DrawingLoop implements Runnable {
     }
 
     private void checkDrawCollisions(ArrayList<Character> characterList) throws InterruptedException {
-        for (Character character : characterList) {
+        for (Character character : characterList ) {
             character.checkReachGameWall();
             character.checkReachHighest();
             character.checkReachFloor();
         }
         for (Character cA : characterList) {
             for (Character cB : characterList) {
-                if (cA != cB) {
+                if( cA != cB) {
                     if (cA.getBoundsInParent().intersects(cB.getBoundsInParent())) {
                         cA.collided(cB);
                         cB.collided(cA);
@@ -36,7 +36,7 @@ public class DrawingLoop implements Runnable {
                 }
             }
         }
-    } //add }
+    }
 
     private void paint(ArrayList<Character> characterList) {
         for (Character character : characterList ) {

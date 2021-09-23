@@ -3,7 +3,6 @@ package model;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import org.apache.logging.log4j.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import view.Platform;
@@ -18,7 +17,7 @@ public class Character extends Pane {
     public static final int CHARACTER_HEIGHT = 64;
 
     private Image characterImg;
-
+    
     private AnimatedSprite imageView;
 
     private int x;
@@ -29,7 +28,6 @@ public class Character extends Pane {
     private int offsetY;
 
     private int score=0;
-
     private KeyCode leftKey;
     private KeyCode rightKey;
     private KeyCode upKey;
@@ -47,18 +45,16 @@ public class Character extends Pane {
     boolean jumping = false;
 
     public Character(int x, int y, int offsetX, int offsetY, KeyCode leftKey, KeyCode rightKey, KeyCode upKey) {
-
         this.startX = x;
         this.startY = y;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
-
         this.x = x;
         this.y = y;
         this.setTranslateX(x);
         this.setTranslateY(y);
         this.characterImg = new Image(getClass().getResourceAsStream("/assets/MarioSheet.png"));
-        this.imageView = new AnimatedSprite(characterImg, 4, 4, offsetX, offsetY, 16, 32);
+        this.imageView = new AnimatedSprite(characterImg,4,4,offsetX,offsetY,16,32);
         this.imageView.setFitWidth(CHARACTER_WIDTH);
         this.imageView.setFitHeight(CHARACTER_HEIGHT);
         this.leftKey = leftKey;
@@ -67,43 +63,12 @@ public class Character extends Pane {
         this.getChildren().addAll(this.imageView);
     }
 
-    public void collided(Character c) throws InterruptedException {
-        if (isMoveLeft) {
-            x = c.getX() + CHARACTER_WIDTH + 1;
-            stop();
-        } else if (isMoveRight) {
-            x = c.getX() - CHARACTER_WIDTH - 1;
-            stop();
-        }
-        if (y < Platform.GROUND - CHARACTER_HEIGHT) {
-//            if (falling && y < c.getY()) {
-            if( falling && y < c.getY() && Math.abs(y-c.getY())<=CHARACTER_HEIGHT+1) {
-                score++;
-                y = Platform.GROUND - CHARACTER_HEIGHT - 5;
-                repaint();
-                c.collapsed();
-                c.respawn();
-            }
-        }
+    public static boolean checkStop() {
+        return true;
     }
 
-    public void collapsed() throws InterruptedException {
-        imageView.setFitHeight(5);
-        y = Platform.GROUND - 5;
-        repaint();
-        TimeUnit.MILLISECONDS.sleep(500);
-    }
-
-        public void respawn() {
-        x = startX;
-        y = startY;
-        imageView.setFitWidth(CHARACTER_WIDTH);
-        imageView.setFitHeight(CHARACTER_HEIGHT);
-        isMoveLeft = false;
-        isMoveRight = false;
-        falling = true;
-        canJump = false;
-        jumping = false;
+    public static boolean stompedTest(Character character) {
+        return true;
     }
 
     public void moveLeft() {
@@ -154,11 +119,12 @@ public class Character extends Pane {
         }
     }
 
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
+    public boolean checkwall(){
+        if( x+getWidth() >= Platform.WIDTH) {
+            x = Platform.WIDTH-CHARACTER_WIDTH;
+            return true;
+        }
+        else return false;
     }
 
     public void moveX() {
@@ -208,19 +174,87 @@ public class Character extends Pane {
         return upKey;
     }
 
-    public AnimatedSprite getImageView() {
-        return imageView;
+    public AnimatedSprite getImageView() { return imageView; }
+
+    public void collided(Character c) throws InterruptedException {
+        if (isMoveLeft) {
+            x = c.getX() + CHARACTER_WIDTH + 1;
+            stop();
+        } else if (isMoveRight) {
+            x = c.getX() - CHARACTER_WIDTH - 1;
+            stop();
+        }
+        if(y < Platform.GROUND - CHARACTER_HEIGHT) {
+            if( falling && y < c.getY() && Math.abs(y-c.getY())<=CHARACTER_HEIGHT+1) {
+                score++;
+                y = Platform.GROUND - CHARACTER_HEIGHT - 5;
+                repaint();
+                c.collapsed();
+                c.respawn();
+            }
+        }
+    }
+
+    public void collapsed() throws InterruptedException {
+        imageView.setFitHeight(5);
+        y = Platform.GROUND - 5;
+        repaint();
+        TimeUnit.MILLISECONDS.sleep(500);
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int setX(int i) {
+        return this.x = i;
+    }
+
+    public int setY(int i) {
+        return this.y = i;
+    }
+
+    public void respawn() {
+        x = startX;
+        y = startY;
+        imageView.setFitWidth(CHARACTER_WIDTH);
+        imageView.setFitHeight(CHARACTER_HEIGHT);
+        isMoveLeft = false;
+        isMoveRight = false;
+        falling = true;
+        canJump = false;
+        jumping = false;
     }
 
     public int getScore() {
         return score;
     }
 
-    public double getOffsetX() {
+    public int getOffsetY() {
+        return offsetY;
+    }
+    public int getOffsetX() {
         return offsetX;
     }
 
-    public double getOffsetY() {
-        return offsetY;
+    public void setOnGround() {
+        y = Platform.GROUND;
+        canJump = true;
+    }
+
+    public boolean JumpCheck() {
+        return canJump;
+    }
+
+
+    public boolean checkstomped(Character characterUnderTest) {
+        return false;
+    }
+
+    public void collidedTest(Character character) {
     }
 }
